@@ -18,7 +18,7 @@
   ansible.builtin.file:
     path: "{{ download_dir }}/go{{ goversion }}"
     state: directory
-    mode: 0755
+    mode: "0755"
   when: not go_installed.stat.exists
 
 - name: Download & Unarchive Go

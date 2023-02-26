@@ -10,3 +10,4 @@
       - htop
       - build-essential
       - lsof
+      - tar
