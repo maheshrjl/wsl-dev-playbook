@@ -19,7 +19,7 @@
     path: "{{ download_dir }}/go{{ goversion }}"
     state: directory
     mode: 0755
-  when: go_installed.stat.exists == false
+  when: not go_installed.stat.exists
 
 - name: Download & Unarchive Go
   ansible.builtin.unarchive:
@@ -27,14 +27,14 @@
     dest: "{{ download_dir }}/go{{ goversion }}"
     creates: "{{ download_dir }}/go{{ goversion }}/go/README.md"
     remote_src: true
-  when: go_installed.stat.exists == false
+  when: not go_installed.stat.exists
 
 - name: Move Go to /usr/local
   ansible.builtin.command: "mv {{ download_dir }}/go{{ goversion }}/go /usr/local/go"
   args:
     creates: "/usr/local/go/README.md"
   register: move_go
-  when: go_installed.stat.exists == false
+  when: not go_installed.stat.exists
 
 - name: Set Go Binary to the PATH environment variable
   ansible.builtin.lineinfile:
@@ -42,7 +42,7 @@
     regexp: '^PATH="(.*)"$'
     line: "export PATH=$PATH:/usr/local/go/bin"
   notify: "Reload /etc/profile"
-  when: go_installed.stat.exists == false
+  when: not go_installed.stat.exists
 
 - name: Verify Go installation
   ansible.builtin.command: "go version"

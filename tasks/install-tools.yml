@@ -1,0 +1,12 @@
+---
+- name: Install essential tools
+  ansible.builtin.package:
+    name:
+      - curl
+      - wget
+      - unzip
+      - vim
+      - python3-pip
+      - htop
+      - build-essential
+      - lsof

@@ -11,7 +11,7 @@
     path: "{{ download_dir }}/awscliv2"
     state: directory
     mode: 0755
-  when: awscli_installed.stat.exists == false
+  when: not awscli_installed.stat.exists
 
 - name: Download & Unarchive AWSCLI
   ansible.builtin.unarchive:
@@ -19,13 +19,13 @@
     dest: "{{ download_dir }}/awscliv2"
     creates: "{{ download_dir }}/awscliv2/aws/README.md"
     remote_src: true
-  when: awscli_installed.stat.exists == false
+    when: not awscli_installed.stat.exists
 
 - name: Run AWS CLI installer
   ansible.builtin.script: "{{ download_dir }}/awscliv2/aws/install"
   args:
     creates: /usr/local/bin/aws
-  when: awscli_installed.stat.exists == false
+    when: not awscli_installed.stat.exists
 
 - name: Verify AWS CLI installation
   ansible.builtin.command: aws --version

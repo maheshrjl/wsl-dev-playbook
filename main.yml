@@ -6,6 +6,10 @@
   vars_files:
     - vars.yml
 
+  handlers:
+    - name: Reload Profile
+      ansible.builtin.import_tasks: handlers/reload_profile.yml
+
   pre_tasks:
     - name: Update package caches if required
       ansible.builtin.apt:
@@ -14,16 +18,9 @@
       when: ansible_os_family == "Debian"
 
   tasks:
-    - name: Install essential tools
-      ansible.builtin.package:
-        name:
-          - curl
-          - wget
-          - unzip
-          - vim
-          - python3-pip
-          - htop
-          - build-essential
+    - name: Install tools
+      ansible.builtin.include_tasks:
+        file: tasks/install-tools.yml
 
     - name: Install AWS CLI v2
       ansible.builtin.include_tasks:
@@ -36,7 +33,3 @@
     - name: Install Terraform
       ansible.builtin.include_tasks:
         file: tasks/terraform.yml
-
-  handlers:
-    - name: Reload /etc/profile
-      ansible.builtin.command: source /etc/profile
