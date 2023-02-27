@@ -18,6 +18,14 @@
     update_cache: true
   when: ansible_os_family == "Debian"
 
+- name: Enable autocomplete for Terraform
+  ansible.builtin.lineinfile:
+    path: /etc/profile
+    line: 'complete -C "/usr/bin/terraform" terraform'
+    create: true
+    state: present
+    mode: "0644"
+
 - name: Verify Terraform installation
   ansible.builtin.command: "terraform version"
   register: terraform_version

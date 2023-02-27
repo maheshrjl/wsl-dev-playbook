@@ -41,14 +41,13 @@
     dest: /etc/profile
     regexp: '^PATH="(.*)"$'
     line: "export PATH=$PATH:/usr/local/go/bin"
-  notify: "Reload /etc/profile"
+  notify: Reload /etc/profile
   when: not go_installed.stat.exists
 
 - name: Verify Go installation
   ansible.builtin.command: "go version"
   register: go_version
   changed_when: false
-  become: false
 
 - name: Print Go version
   ansible.builtin.debug:

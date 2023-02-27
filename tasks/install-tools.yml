@@ -11,3 +11,8 @@
       - build-essential
       - lsof
       - tar
+
+- name: Upgrade pip
+  ansible.builtin.pip:
+    name: pip
+    state: latest

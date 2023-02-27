@@ -8,7 +8,7 @@
 
   handlers:
     - name: Reload Profile
-      ansible.builtin.import_tasks: handlers/reload_profile.yml
+      ansible.builtin.import_tasks: handlers/main.yml
 
   pre_tasks:
     - name: Update package caches if required
